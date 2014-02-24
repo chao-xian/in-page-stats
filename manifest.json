@@ -1,0 +1,26 @@
+{
+  "name": "View Page Stats",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "For a page in www.bath.ac.uk, show some page stats.",
+  "background": {
+    "scripts": ["eventPage.js"]//,
+    // "persistent": false
+  },
+  "content_scripts": [
+      {
+          "matches": ["http://www.bath.ac.uk/*"],
+          // "run_at": "document_end",
+          // "js": ["jquery-1.7.1.min.js", "content.js"]
+          "js": ["content.js"]
+      }
+  ],
+  "browser_action": {
+    "default_popup": "popup.html" // popup.html, popup.js and eventPage.js aren't needed.
+  },
+  "permissions": [
+    "http://www.google.com/",
+    "http://www.google.co.uk/",
+    "http://www.bath.ac.uk/"
+  ]
+}
