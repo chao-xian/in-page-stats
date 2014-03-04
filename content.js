@@ -1,39 +1,73 @@
-var url = window.location.href;
+// var url = window.location.href;
 
-console.log("Url is " + url);
+// console.log("Url is " + url);
 
+
+// Setup our AJAX request to the API
 var xhr = new XMLHttpRequest();
 var data;
 xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
         // console.log(xhr.responseText);
+
+        // Parse the data into JSON
         data = JSON.parse(xhr.responseText);
 
         console.log(data);
 
-        data.data.forEach(function(object) {
+        // Iterate over each item in the JSON object and shove into our container div
+        // data.data.forEach(function(object) {
+        for (var i=0; i < 6; i++) {
             var dataElement = document.createElement('p');
-            var dataText = document.createTextNode(object.institution);
+            // var dataText = document.createTextNode(object.institution);
+            var dataText = document.createTextNode(data.data[i].institution);
             dataElement.appendChild(dataText);
-            bodyElement.appendChild(dataElement);
-        });
+            boxoutContent.appendChild(dataElement);
+        }
     }
-}
+};
+
+// Send the AJAX request with no data
 xhr.open('get', 'http://opendatapress.appspot.com/craig552uk/uk-uni-social-media-accounts.json');
 xhr.send({});
 
-var bodyElement = document.getElementById('wrapper');
-if (!bodyElement) {
+// Get the body element
+var bodyElement = document.body;
+/*if (!bodyElement) {
     bodyElement = document.getElementsByClassName('basicPage')[0];
-}
+}*/
+
+
+// Boxout
+var boxoutDiv = document.createElement('div');
+boxoutDiv.setAttribute('class', 'boxout6Columns left');
+boxoutDiv.setAttribute('style', 'position: absolute;');
+
+var boxoutTop = document.createElement('div');
+boxoutTop.setAttribute('class', 'boxoutNoTop');
+boxoutDiv.appendChild(boxoutTop);
+
+var boxoutContent = document.createElement('div');
+boxoutContent.setAttribute('class', 'boxoutContent');
+boxoutDiv.appendChild(boxoutContent);
+
+var boxoutBottom = document.createElement('div');
+boxoutBottom.setAttribute('class', 'boxoutNoBottom');
+boxoutContent.appendChild(boxoutBottom);
+
+// Create a heading
 var newText = document.createTextNode('Does this bit work?');
-var newElement = document.createElement('p');
-
+var newElement = document.createElement('h2');
 newElement.appendChild(newText);
-bodyElement.appendChild(newElement);
 
-var chartElement = document.createElement('canvas');
-bodyElement.appendChild(chartElement);
+// Stick the header into the container div
+boxoutContent.appendChild(newElement);
+
+//Stick the container div into the body of the page
+bodyElement.insertBefore(boxoutDiv, bodyElement.firstChild);
+
+// var chartElement = document.createElement('canvas');
+// bodyElement.appendChild(chartElement);
 
 // window.addEventListener("load", function() {
 //     console.log('Sending Url: ' + url);
