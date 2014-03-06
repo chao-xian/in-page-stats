@@ -12,7 +12,7 @@
           "matches": ["http://www.bath.ac.uk/*"],
           // "run_at": "document_end",
           // "js": ["jquery-1.7.1.min.js", "content.js"]
-          "js": ["content.js", "Chart.min.js"]
+          "js": ["Chart.min.js", "content.js"]
       }
   ],
   "browser_action": {
