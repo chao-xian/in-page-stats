@@ -21,6 +21,7 @@
   "permissions": [
     "http://www.google.com/",
     "http://www.google.co.uk/",
+    "http://opendatapress.appspot.com/",
     "http://www.bath.ac.uk/"
   ]
 }
