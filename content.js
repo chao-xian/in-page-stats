@@ -1,7 +1,40 @@
-// var url = window.location.href;
+var boxoutContent;
 
-// console.log("Url is " + url);
+/**
+ * Insert the chart with a given title
+ */
+var insertChart = function(title) {
+  // Get the body element
+  var bodyElement = document.body;
 
+  // Boxout
+  var boxoutDiv = document.createElement('div');
+  boxoutDiv.setAttribute('class', 'boxout6Columns left');
+  boxoutDiv.setAttribute('style', 'position: absolute;');
+
+  var boxoutTop = document.createElement('div');
+  boxoutTop.setAttribute('class', 'boxoutNoTop');
+  boxoutDiv.appendChild(boxoutTop);
+
+  boxoutContent = document.createElement('div');
+  boxoutContent.setAttribute('class', 'boxoutContent');
+  boxoutDiv.appendChild(boxoutContent);
+
+  var boxoutBottom = document.createElement('div');
+  boxoutBottom.setAttribute('class', 'boxoutNoBottom');
+  boxoutContent.appendChild(boxoutBottom);
+
+  // Create a heading
+  var newText = document.createTextNode('Platform stats for ' + title);
+  var newElement = document.createElement('h2');
+  newElement.appendChild(newText);
+
+  // Stick the header into the container div
+  boxoutContent.appendChild(newElement);
+
+  //Stick the container div into the body of the page
+  bodyElement.insertBefore(boxoutDiv, bodyElement.firstChild);
+};
 
 // Setup our AJAX request to the API
 var xhr = new XMLHttpRequest();
@@ -42,7 +75,6 @@ xhr.onreadystatechange = function() {
         );
 
         chartData.datasets = dataSets;
-        console.log(chartData);
 
         var chartElement = document.createElement('canvas');
         chartElement.setAttribute('id', 'myChart');
@@ -56,38 +88,25 @@ xhr.onreadystatechange = function() {
     }
 };
 
-// Send the AJAX request with no data
-xhr.open('get', 'http://opendatapress.appspot.com/bathweb/platform.json');
+// Work out what we're looking at and set which report to pull accordingly
+var url = window.location.href;
+
+// console.log("Url is " + url);
+
+// Default to stats for all of the site
+var reportDataPoint = 'http://opendatapress.appspot.com/bathweb/platform.json';
+var title = " all of www.bath.ac.uk";
+
+// Stats for the UG landing page
+var ugSiteRegex = /http:\/\/www\.bath\.ac\.uk\/study\/\ug.*/;
+if (url.match(ugSiteRegex)) {
+  console.log("You're in the UG website");
+  reportDataPoint = 'http://opendatapress.appspot.com/bathweb/platform.json';
+  title = "Study UG";
+}
+
+insertChart(title);
+
+xhr.open('get', reportDataPoint);
 xhr.send({});
 
-// Get the body element
-var bodyElement = document.body;
-
-
-// Boxout
-var boxoutDiv = document.createElement('div');
-boxoutDiv.setAttribute('class', 'boxout6Columns left');
-boxoutDiv.setAttribute('style', 'position: absolute;');
-
-var boxoutTop = document.createElement('div');
-boxoutTop.setAttribute('class', 'boxoutNoTop');
-boxoutDiv.appendChild(boxoutTop);
-
-var boxoutContent = document.createElement('div');
-boxoutContent.setAttribute('class', 'boxoutContent');
-boxoutDiv.appendChild(boxoutContent);
-
-var boxoutBottom = document.createElement('div');
-boxoutBottom.setAttribute('class', 'boxoutNoBottom');
-boxoutContent.appendChild(boxoutBottom);
-
-// Create a heading
-var newText = document.createTextNode('Does this bit work?');
-var newElement = document.createElement('h2');
-newElement.appendChild(newText);
-
-// Stick the header into the container div
-boxoutContent.appendChild(newElement);
-
-//Stick the container div into the body of the page
-bodyElement.insertBefore(boxoutDiv, bodyElement.firstChild);
