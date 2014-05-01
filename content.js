@@ -98,10 +98,10 @@ var reportDataPoint = 'http://opendatapress.appspot.com/bathweb/platform.json';
 var title = " all of www.bath.ac.uk";
 
 // Stats for the UG landing page
-var ugSiteRegex = /http:\/\/www\.bath\.ac\.uk\/study\/\ug.*/;
+var ugSiteRegex = /http:\/\/www\.bath\.ac\.uk\/study\/\ug(\/|\/index.html)?$/;
 if (url.match(ugSiteRegex)) {
   console.log("You're in the UG website");
-  reportDataPoint = 'http://opendatapress.appspot.com/bathweb/platform.json';
+  reportDataPoint = 'http://opendatapress.appspot.com/bathweb/study-ug-landing-page-platform.json';
   title = "Study UG";
 }
 
