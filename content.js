@@ -1,9 +1,8 @@
-var boxoutContent;
 
 /**
  * Insert the chart with a given title
  */
-var insertChart = function(title) {
+var insertChart = function(title, dataSets) {
   // Get the body element
   var bodyElement = document.body;
 
@@ -16,7 +15,7 @@ var insertChart = function(title) {
   boxoutTop.setAttribute('class', 'boxoutNoTop');
   boxoutDiv.appendChild(boxoutTop);
 
-  boxoutContent = document.createElement('div');
+  var boxoutContent = document.createElement('div');
   boxoutContent.setAttribute('class', 'boxoutContent');
   boxoutDiv.appendChild(boxoutContent);
 
@@ -34,6 +33,15 @@ var insertChart = function(title) {
 
   //Stick the container div into the body of the page
   bodyElement.insertBefore(boxoutDiv, bodyElement.firstChild);
+
+  var chartElement = document.createElement('canvas');
+  chartElement.setAttribute('id', 'myChart');
+  chartElement.setAttribute('width', '400');
+  chartElement.setAttribute('height', '400');
+  boxoutContent.appendChild(chartElement);
+
+  var context = chartElement.getContext('2d');
+  new Chart(context).Pie(dataSets);
 };
 
 // Setup our AJAX request to the API
@@ -41,6 +49,7 @@ var xhr = new XMLHttpRequest();
 var data;
 xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
+
         // console.log(xhr.responseText);
 
         // Parse the data into JSON
@@ -74,16 +83,9 @@ xhr.onreadystatechange = function() {
             }
         );
 
-        chartData.datasets = dataSets;
+        // chartData.datasets = dataSets;
 
-        var chartElement = document.createElement('canvas');
-        chartElement.setAttribute('id', 'myChart');
-        chartElement.setAttribute('width', '400');
-        chartElement.setAttribute('height', '400');
-        boxoutContent.appendChild(chartElement);
-
-        var context = chartElement.getContext('2d');
-        new Chart(context).Pie(dataSets);
+        insertChart(title, dataSets);
 
     }
 };
@@ -94,7 +96,9 @@ var url = window.location.href;
 // console.log("Url is " + url);
 
 // Default to stats for all of the site
-var reportDataPoint = 'http://opendatapress.appspot.com/bathweb/platform.json';
+// var reportDataPoint = 'http://opendatapress.appspot.com/bathweb/platform.json';
+// Don't show it for pages that aren't in our list
+var reportDataPoint = '';
 var title = " all of www.bath.ac.uk";
 
 // Stats for the UG landing page
@@ -105,8 +109,8 @@ if (url.match(ugSiteRegex)) {
   title = "Study UG";
 }
 
-insertChart(title);
-
-xhr.open('get', reportDataPoint);
-xhr.send({});
+if (reportDataPoint.length > 0) {
+  xhr.open('get', reportDataPoint);
+  xhr.send({});
+}
 
