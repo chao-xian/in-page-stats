@@ -1,3 +1,9 @@
+/**
+ * Toggle the flyout
+ */
+var toggleFlyout = function() {
+  console.log('Clicked');
+}
 
 /**
  * Insert the chart with a given title
@@ -5,6 +11,10 @@
 var insertChart = function(title, dataSets) {
   // Get the body element
   var bodyElement = document.body;
+
+  // Wrapper div for flyout
+  var flyoutContainer = document.createElement('div');
+  flyoutContainer.setAttribute('class', 'flyout');
 
   // Boxout
   var boxoutDiv = document.createElement('div');
@@ -21,7 +31,7 @@ var insertChart = function(title, dataSets) {
 
   var boxoutBottom = document.createElement('div');
   boxoutBottom.setAttribute('class', 'boxoutNoBottom');
-  boxoutContent.appendChild(boxoutBottom);
+  boxoutDiv.appendChild(boxoutBottom);
 
   // Create a heading
   var newText = document.createTextNode('Platform stats for ' + title);
@@ -31,8 +41,16 @@ var insertChart = function(title, dataSets) {
   // Stick the header into the container div
   boxoutContent.appendChild(newElement);
 
+  // A thing to click on
+  var label = document.createElement('span');
+  label.appendChild(document.createTextNode('Click me!'));
+  label.addEventListener('click', toggleFlyout, false);
+
+  flyoutContainer.appendChild(boxoutDiv);
+  flyoutContainer.appendChild(label);
+
   //Stick the container div into the body of the page
-  bodyElement.insertBefore(boxoutDiv, bodyElement.firstChild);
+  bodyElement.insertBefore(flyoutContainer, bodyElement.firstChild);
 
   var chartElement = document.createElement('canvas');
   chartElement.setAttribute('id', 'myChart');
