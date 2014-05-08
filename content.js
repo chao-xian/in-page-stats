@@ -3,6 +3,13 @@
  */
 var toggleFlyout = function() {
   console.log('Clicked');
+  var boxout = document.getElementById('flyout');
+  console.log(boxout.getAttribute('style'));
+  if (boxout.getAttribute('style') === 'margin-left: -9999px; position: absolute' || boxout.offsetParent === null) {
+    boxout.setAttribute('style', 'margin-left: 0; position: relative');
+  } else {
+    boxout.setAttribute('style', 'margin-left: -9999px; position: absolute');
+  }
 }
 
 /**
@@ -14,11 +21,11 @@ var insertChart = function(title, dataSets) {
 
   // Wrapper div for flyout
   var flyoutContainer = document.createElement('div');
-  flyoutContainer.setAttribute('class', 'flyout');
 
   // Boxout
   var boxoutDiv = document.createElement('div');
   boxoutDiv.setAttribute('class', 'boxout6Columns left');
+  boxoutDiv.setAttribute('id', 'flyout');
   boxoutDiv.setAttribute('style', 'position: absolute;');
 
   var boxoutTop = document.createElement('div');
